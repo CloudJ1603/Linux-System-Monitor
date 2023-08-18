@@ -143,7 +143,7 @@ long LinuxParser::IdleJiffies() {
 vector<string> LinuxParser::CpuUtilization() { 
   string line;
   string cpu, num;
-  vector<string> jiffies(10);
+  vector<string> jiffies;
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if(filestream.is_open()) {
     std::getline(filestream, line);
@@ -270,18 +270,11 @@ long LinuxParser::UpTime(int pid) {
   if(filestream.is_open()) {
     std::getline(filestream, line);
     std::istringstream linestream(line);
-    try {
-      for(int i = 0; i < 22; i++) {
-        linestream >> uptime;
-      }
-      return stol(uptime) / sysconf(_SC_CLK_TCK);
-    } catch(...) {
-      return 0;
+    for(int i = 0; i < 22; i++) {
+      linestream >> uptime;
     }
-
   }
-  return 0;
-  
+  return stol(uptime) / sysconf(_SC_CLK_TCK);
 }
 
 // float LinuxParser::ProccessCpuUtilization(int pid) {

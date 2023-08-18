@@ -14,7 +14,11 @@ regex
 string
 -
 
-/mnt/c/Udacity/CppND-System-Monitor/src/linux_parser.cpp
+../include/process.h
+string
+-
+
+/mnt/c/test/LinuxSystemMonitor/src/linux_parser.cpp
 dirent.h
 -
 unistd.h
@@ -30,5 +34,23 @@ iostream
 unistd.h
 -
 linux_parser.h
-/mnt/c/Udacity/CppND-System-Monitor/src/linux_parser.h
+/mnt/c/test/LinuxSystemMonitor/src/linux_parser.h
+
+/mnt/c/test/LinuxSystemMonitor/src/process.cpp
+unistd.h
+-
+cctype
+-
+sstream
+-
+string
+-
+vector
+-
+iostream
+-
+process.h
+/mnt/c/test/LinuxSystemMonitor/src/process.h
+linux_parser.h
+/mnt/c/test/LinuxSystemMonitor/src/linux_parser.h
 

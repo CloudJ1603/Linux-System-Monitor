@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/c/Udacity/CppND-System-Monitor/src/format.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/format.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/linux_parser.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/linux_parser.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/main.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/main.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/ncurses_display.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/ncurses_display.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/process.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/process.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/processor.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/processor.cpp.o"
-  "/mnt/c/Udacity/CppND-System-Monitor/src/system.cpp" "/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles/monitor.dir/src/system.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/format.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/format.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/linux_parser.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/linux_parser.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/main.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/main.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/ncurses_display.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/ncurses_display.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/process.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/process.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/processor.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/processor.cpp.o"
+  "/mnt/c/test/LinuxSystemMonitor/src/system.cpp" "/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles/monitor.dir/src/system.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

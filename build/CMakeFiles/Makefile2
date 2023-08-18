@@ -44,10 +44,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Udacity/CppND-System-Monitor
+CMAKE_SOURCE_DIR = /mnt/c/test/LinuxSystemMonitor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Udacity/CppND-System-Monitor/build
+CMAKE_BINARY_DIR = /mnt/c/test/LinuxSystemMonitor/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -74,14 +74,14 @@ clean: CMakeFiles/monitor.dir/clean
 CMakeFiles/monitor.dir/all:
 	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/depend
 	$(MAKE) -f CMakeFiles/monitor.dir/build.make CMakeFiles/monitor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target monitor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/test/LinuxSystemMonitor/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target monitor"
 .PHONY : CMakeFiles/monitor.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/monitor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/test/LinuxSystemMonitor/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/monitor.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Udacity/CppND-System-Monitor/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/test/LinuxSystemMonitor/build/CMakeFiles 0
 .PHONY : CMakeFiles/monitor.dir/rule
 
 # Convenience name for target.
