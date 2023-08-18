@@ -15,7 +15,9 @@ using std::vector;
 /*You need to complete the mentioned TODOs in order to satisfy the rubric criteria "The student will be able to extract and display basic data about the system."
 
 You need to properly format the uptime. Refer to the comments mentioned in format. cpp for formatting the uptime.*/
-
+bool System::customComparator(Process& a, Process& b) {
+    return a < b;
+}
 // TODO: Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
 
@@ -28,6 +30,7 @@ vector<Process>& System::Processes() {
         Process p(pids[i]);
         processes_.push_back(p);
     }
+    sort(processes_.begin(), processes_.end(), customComparator);
     return processes_; 
 }
 
