@@ -261,8 +261,7 @@ string LinuxParser::User(int pid) {
   return string(); 
 }
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
+// Read and return the uptime of a process
 long LinuxParser::UpTime(int pid) { 
   string line;
   string uptime;
@@ -271,6 +270,9 @@ long LinuxParser::UpTime(int pid) {
     std::getline(filestream, line);
     std::istringstream linestream(line);
     for(int i = 0; i < 22; i++) {
+      /*The time the process started after system boot
+      NOTE that this is a constant number, to make it dynamic
+      subtract it from the system uptime*/
       linestream >> uptime;
     }
   }

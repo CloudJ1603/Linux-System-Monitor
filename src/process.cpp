@@ -16,41 +16,36 @@ Process::Process(int id) {
     pid = id;
     user = LinuxParser::User(id); 
     ram = LinuxParser::Ram(id);
-    uptime = LinuxParser::UpTime(id);
+    // UpTime(id) provides a static number, which is a time stamp when the process start
+    // while UpTime() provides a dynamic number, which the the system uptime in real
+    uptime = LinuxParser::UpTime() - LinuxParser::UpTime(id);
     command = LinuxParser::Command(id);
 
-    float seconds = static_cast<float>(LinuxParser::UpTime() - uptime);
+    float seconds = static_cast<float>(uptime);
     float totaltime = static_cast<float>(LinuxParser::ActiveJiffies(id)) / sysconf(_SC_CLK_TCK);
 
     cpuUtilization = totaltime / seconds;
 }
 
-// TODO: Return this process's ID
+// Return this process's ID
 int Process::Pid() { return pid; }
 
-// TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { 
-    return cpuUtilization; 
-}
+// Return this process's CPU utilization
+float Process::CpuUtilization() { return cpuUtilization; }
 
-// TODO: Return the command that generated this process
+// Return the command that generated this process
 string Process::Command() { return command; }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { 
-    // return "abcd";       // succeed
-    // return string();      // succeed
-    return ram;          // fail
-}
+// Return this process's memory utilization
+string Process::Ram() { return ram; }
 
-// TODO: Return the user (name) that generated this process
+// Return the user (name) that generated this process
 string Process::User() { return user; }
 
-// TODO: Return the age of this process (in seconds)
+// Return the age of this process (in seconds)
 long int Process::UpTime() { return uptime; }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
+// Overload the "less than" comparison operator for Process objects
 bool Process::operator>(Process const& other) const { 
     return  cpuUtilization > other.cpuUtilization; 
 }
