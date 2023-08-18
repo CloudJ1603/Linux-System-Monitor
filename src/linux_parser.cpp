@@ -276,13 +276,3 @@ long LinuxParser::UpTime(int pid) {
   }
   return stol(uptime) / sysconf(_SC_CLK_TCK);
 }
-
-// float LinuxParser::ProccessCpuUtilization(int pid) {
-//   vector<long> vec = LinuxParser::ActiveJiffies(pid);
-//   float total_time = static_cast<float>(vec[0]) / sysconf(_SC_CLK_TCK);
-//   float start_time = static_cast<float>(vec[1]) / sysconf(_SC_CLK_TCK);
-//   float uptime =  static_cast<float>(LinuxParser::UpTime(pid));
-//   float seconds = uptime - start_time;
-
-//   return 100*(total_time / seconds);
-// }
