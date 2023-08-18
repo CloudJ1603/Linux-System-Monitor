@@ -16,7 +16,7 @@ using std::vector;
 
 You need to properly format the uptime. Refer to the comments mentioned in format. cpp for formatting the uptime.*/
 bool System::customComparator(Process& a, Process& b) {
-    return a < b;
+    return a > b;
 }
 // TODO: Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
