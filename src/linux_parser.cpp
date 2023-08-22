@@ -5,6 +5,7 @@
 #include <vector>
 #include<iostream>
 #include <unistd.h>
+#include <filesystem>
 
 #include "linux_parser.h"
 
@@ -51,27 +52,42 @@ string LinuxParser::Kernel() {
 
 // Update this to use std::filesystem
 // Read and return the system pids
+
+// vector<int> LinuxParser::Pids() {
+//   vector<int> pids;
+//   DIR* directory = opendir(kProcDirectory.c_str());
+//   struct dirent* file;
+//   while ((file = readdir(directory)) != nullptr) {
+//     // Is this a directory?
+//     if (file->d_type == DT_DIR) {
+//       // Is every character of the name a digit?
+//       string filename(file->d_name);
+//       if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+//         int pid = stoi(filename);
+//         pids.push_back(pid);
+//       }
+//     }
+//   }
+//   closedir(directory);
+//   return pids;
+// }
+
 vector<int> LinuxParser::Pids() {
   vector<int> pids;
-  DIR* directory = opendir(kProcDirectory.c_str());
-  struct dirent* file;
-  while ((file = readdir(directory)) != nullptr) {
-    // Is this a directory?
-    if (file->d_type == DT_DIR) {
-      // Is every character of the name a digit?
-      string filename(file->d_name);
-      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
-        int pid = stoi(filename);
-        pids.push_back(pid);
-      }
+  for (auto& p : std::filesystem::directory_iterator(kProcDirectory)) {
+    string filename = p.path().filename();
+    if (p.is_directory() &&
+        std::all_of(filename.begin(), filename.end(), isdigit)) {
+      int pid = stoi(filename);
+      pids.push_back(pid);
     }
   }
-  closedir(directory);
   return pids;
 }
 
 // Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
+  float res = 0;
   std::string line;
   std::string text;
   std::vector<string> memInfo(4);
@@ -83,11 +99,19 @@ float LinuxParser::MemoryUtilization() {
       linestream >> text >> memInfo[i];
     }
   }
-  return (stof(memInfo[0]) - stof(memInfo[1])) / stof(memInfo[0]); 
+  
+  try {
+    res = (stof(memInfo[0]) - stof(memInfo[1])) / stof(memInfo[0]);
+  } catch (std::invalid_argument &e) {
+
+  }
+
+  return res; 
 }
 
 // Read and return the system uptime
 long LinuxParser::UpTime() { 
+  long res = 0;
   string line;
   string uptime, idle;
   std::ifstream filestream(kProcDirectory + kUptimeFilename);
@@ -95,9 +119,14 @@ long LinuxParser::UpTime() {
     std::getline(filestream, line);
     std::istringstream linestream(line);
     linestream >> uptime >> idle;
-    return stol(uptime);
   }
-  return 0; 
+
+  try {
+    res = stol(uptime);
+  } catch (std::invalid_argument &e) {
+
+  }
+  return res; 
 }
 
 // Read and return the number of jiffies for the system
@@ -107,6 +136,7 @@ long LinuxParser::Jiffies() {
 
 // Read and return the number of active jiffies for a PID
 long LinuxParser::ActiveJiffies(int pid) { 
+  long res = 0;
   string line;
   string var;
   string utime, stime, cutime, cstime, starttime;
@@ -118,24 +148,41 @@ long LinuxParser::ActiveJiffies(int pid) {
       linestream >> var;
     }
     linestream >> utime >> stime >> cutime >> cstime;
-    return  stol(utime) + stol(stime) + stol(cutime) + stol(cstime);
   }
-  return 0; 
+
+  try {
+    res = stol(utime) + stol(stime) + stol(cutime) + stol(cstime);
+  } catch(std::invalid_argument &e) {
+
+  }
+  return res; 
 }
 
 // Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
+  long res = 0;
   vector<string> jiffies = LinuxParser::CpuUtilization();
-  return stol(jiffies[CPUStates::kUser_]) + stol(jiffies[CPUStates::kNice_]) +
+  try {
+    res = stol(jiffies[CPUStates::kUser_]) + stol(jiffies[CPUStates::kNice_]) +
          stol(jiffies[CPUStates::kSystem_]) + stol(jiffies[CPUStates::kIRQ_]) +
          stol(jiffies[CPUStates::kSoftIRQ_]) +
          stol(jiffies[CPUStates::kSteal_]);
+  } catch (std::invalid_argument &e) {
+
+  }
+  return res; 
 }
 
 // Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
+  long res = 0;
   vector<string> jiffies = LinuxParser::CpuUtilization();
-  return stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]);
+  try {
+    res = stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]);
+  } catch (std::invalid_argument &e) {
+
+  }
+  return res;
 }
 
 // Read and return CPU utilization
@@ -158,36 +205,46 @@ vector<string> LinuxParser::CpuUtilization() {
 
 // Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
+  long res = 0;
   string line;
   string text, num;
   std::ifstream filestream(kProcDirectory + kStatFilename);
-  if(filestream.is_open()) {
-    while(getline(filestream, line)) {
-      std::istringstream linestream(line);
-      linestream >> text >> num;
-      if(text.compare("processes") == 0) {
-        return stoi(num);
+  try {
+    if(filestream.is_open()) {
+      while(getline(filestream, line)) {
+        std::istringstream linestream(line);
+        linestream >> text >> num;
+        if(text.compare("processes") == 0) {
+          res = stoi(num);
+        }
       }
     }
+  } catch(std::invalid_argument &e) {
+
   }
-  return 0; 
+  return res; 
 }
 
 // Read and return the number of running processes
-int LinuxParser::RunningProcesses() { 
+int LinuxParser::RunningProcesses() {
+  int res = 0; 
   string line;
   string text, num;
   std::ifstream filestream(kProcDirectory + kStatFilename);
-  if(filestream.is_open()) {
-    while(getline(filestream, line)) {
-      std::istringstream linestream(line);
-      linestream >> text >> num;
-      if(text.compare("procs_running") == 0) {
-        return stoi(num);
+  try {
+    if(filestream.is_open()) {
+      while(getline(filestream, line)) {
+        std::istringstream linestream(line);
+        linestream >> text >> num;
+        if(text.compare("procs_running") == 0) {
+          return stoi(num);
+        }
       }
     }
+  } catch (std::invalid_argument &e) {
+
   }
-  return 0; 
+  return res; 
 }
 
 // Read and return the command associated with a process
@@ -270,5 +327,18 @@ long LinuxParser::UpTime(int pid) {
       linestream >> uptime;
     }
   }
-  return stol(uptime) / sysconf(_SC_CLK_TCK);
+  double pid_time {0};
+  /*
+  Without try and catch, a segmentation fault will happen.  an exception of 
+  `invalid_argument` type is thrown due to input provided to stol when calculating 
+  process uptime. 
+  This is because a process ended after its PID was collected but before the calculation
+  for the uptime 
+  */
+  try {
+    pid_time = stol(uptime) / sysconf(_SC_CLK_TCK);
+  } catch (std::invalid_argument &e) {
+    pid_time = 0;
+  }
+  return (long) pid_time;
 }
