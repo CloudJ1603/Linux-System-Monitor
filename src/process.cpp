@@ -15,6 +15,7 @@ using std::vector;
 Process::Process(int id) {
     pid = id;
     user = LinuxParser::User(id); 
+    virt = LinuxParser::Virt(id);
     ram = LinuxParser::Ram(id);
     // UpTime(id) provides a static number, which is a time stamp when the process start
     // while UpTime() provides a dynamic number, which the the system uptime in real
@@ -34,9 +35,19 @@ int Process::Pid() { return pid; }
 float Process::CpuUtilization() { return cpuUtilization; }
 
 // Return the command that generated this process
-string Process::Command() { return command; }
+string Process::Command() { 
+    if(command.length() <= 40) {
+        return command;
+    } else {
+        return command.substr(0,37) + "...";
+    }
+    return command; 
+}
 
-// Return this process's memory utilization
+// Return the process's virtual memory utilization
+string Process::Virt() {return virt;}
+
+// Return this process's physical memory utilization
 string Process::Ram() { return ram; }
 
 // Return the user (name) that generated this process

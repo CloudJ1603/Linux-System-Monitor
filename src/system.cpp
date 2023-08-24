@@ -24,10 +24,16 @@ vector<Process>& System::Processes() {
     processes_.clear();
     vector<int> pids = LinuxParser::Pids();
   
-    for(int i = 0; i < static_cast<int>(pids.size()); i++) {
-        Process p(pids[i]);
-        processes_.push_back(p);
+    // for(int i = 0; i < static_cast<int>(pids.size()); i++) {
+    //     Process p(pids[i]);
+    //     processes_.push_back(p);
+    // }
+
+    // update to use emplace_back
+    for(const int& pid : pids) {
+        processes_.emplace_back(pid);
     }
+
     sort(processes_.begin(), processes_.end(), customComparator);
     return processes_; 
 }

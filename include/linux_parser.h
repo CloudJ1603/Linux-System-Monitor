@@ -27,7 +27,8 @@ const std::string filterMemTotal{"MemTotal:"};
 const std::string filterMemFree{"MemFree:"};
 //process
 const std::string filterUid{"Uid:"};
-const std::string filterProcessMemSize{"VmRSS:"}; // exact physical memory used as a part of RAM
+const std::string filterProcessVirtualMemSize{"VmSize:"};
+const std::string filterProcessPhysicalMemSize{"VmRSS:"}; // exact physical memory used as a part of RAM
 
 
 
@@ -62,6 +63,7 @@ long IdleJiffies();
 
 // Processes
 std::string Command(int pid);
+std::string Virt(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);

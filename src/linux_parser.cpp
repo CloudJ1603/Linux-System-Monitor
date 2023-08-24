@@ -175,7 +175,7 @@ long LinuxParser::ActiveJiffies(int pid) {
   try {
     res = stol(utime) + stol(stime) + stol(cutime) + stol(cstime);
   } catch(std::invalid_argument &e) {
-
+    // do nothing
   }
   return res; 
 }
@@ -190,7 +190,7 @@ long LinuxParser::ActiveJiffies() {
          stol(jiffies[CPUStates::kSoftIRQ_]) +
          stol(jiffies[CPUStates::kSteal_]);
   } catch (std::invalid_argument &e) {
-
+    // do nothing
   }
   return res; 
 }
@@ -202,7 +202,7 @@ long LinuxParser::IdleJiffies() {
   try {
     res = stol(jiffies[CPUStates::kIdle_]) + stol(jiffies[CPUStates::kIOwait_]);
   } catch (std::invalid_argument &e) {
-
+    // do nothing
   }
   return res;
 }
@@ -230,13 +230,10 @@ vector<string> LinuxParser::CpuUtilization() {
 // Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
   long res = 0;
-  // string line;
-  // string text, num;
-  // std::ifstream filestream(kProcDirectory + kStatFilename);
   try {
     res = stoi(findValueByKey<string>(filterProcess, kStatFilename));
   } catch(std::invalid_argument &e) {
-
+    // do nothing
   }
   return res; 
 }
@@ -257,40 +254,19 @@ string LinuxParser::Command(int pid) {
   return findValueOfFile<std::string>(to_string(pid) + kCmdlineFilename);
 }
 
-// Read and return the memory used by a process
-string LinuxParser::Ram(int pid) { 
-  // string line;
-  // string text, num;
-  // std::ifstream filestream(kProcDirectory + "/" + to_string(pid) + kStatusFilename);
-  // if(filestream.is_open()) {
-  //   while(std::getline(filestream, line)) {   
-  //     std::istringstream linestream(line);
-  //     linestream >> text >> num;
-  //     if(text.compare("VmRSS:") == 0) {
-  //       return num;
-  //     }
-  //   }
-  // }
-  // return string();
-  return findValueByKey<string>(filterProcessMemSize, to_string(pid) + kStatusFilename); 
+// Read and return the virtual memory used by a process
+string LinuxParser::Virt(int pid) { 
+  return findValueByKey<string>(filterProcessVirtualMemSize, to_string(pid) + kStatusFilename); 
+}
 
+// Read and return the physical memory used by a process
+string LinuxParser::Ram(int pid) { 
+  return findValueByKey<string>(filterProcessPhysicalMemSize, to_string(pid) + kStatusFilename); 
 }
 
 // Read and return the user ID associated with a process
 string LinuxParser::Uid(int pid) { 
-  string line;
-  string text, num;
-  std::ifstream filestream(kProcDirectory + "/" + to_string(pid) + kStatusFilename);
-  if(filestream.is_open()) {
-    while(std::getline(filestream, line)) {
-      std::istringstream linestream(line);
-      linestream >> text >> num;
-      if(text.compare(filterUid) == 0) {
-        return num;
-      }
-    }
-  }
-  return string(); 
+return findValueByKey<string>(filterUid, to_string(pid) + kStatusFilename); 
 }
 
 // Read and return the user associated with a process
