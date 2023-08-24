@@ -27,7 +27,7 @@ const std::string filterMemTotal{"MemTotal:"};
 const std::string filterMemFree{"MemFree:"};
 //process
 const std::string filterUid{"Uid:"};
-const std::string filterProcMem{""};
+const std::string filterProcessMemSize{"VmRSS:"}; // exact physical memory used as a part of RAM
 
 
 
