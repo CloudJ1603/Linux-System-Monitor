@@ -76,8 +76,7 @@ vector<int> LinuxParser::Pids() {
   vector<int> pids;
   for (auto& p : std::filesystem::directory_iterator(kProcDirectory)) {
     string filename = p.path().filename();
-    if (p.is_directory() &&
-        std::all_of(filename.begin(), filename.end(), isdigit)) {
+    if (p.is_directory() && std::all_of(filename.begin(), filename.end(), isdigit)) {
       int pid = stoi(filename);
       pids.push_back(pid);
     }
@@ -195,10 +194,12 @@ vector<string> LinuxParser::CpuUtilization() {
     std::getline(filestream, line);
     std::istringstream linestream(line);
     linestream >> cpu;
-    while(linestream >> num) {
-      jiffies.push_back(num);
+    if(cpu.compare(filterCpu) == 0) {
+      while(linestream >> num) {
+        jiffies.push_back(num);
+      }
+      return jiffies;
     }
-    return jiffies;
   }
   return {}; 
 }
@@ -214,7 +215,7 @@ int LinuxParser::TotalProcesses() {
       while(getline(filestream, line)) {
         std::istringstream linestream(line);
         linestream >> text >> num;
-        if(text.compare("processes") == 0) {
+        if(text.compare(filterProcess) == 0) {
           res = stoi(num);
         }
       }
@@ -236,7 +237,7 @@ int LinuxParser::RunningProcesses() {
       while(getline(filestream, line)) {
         std::istringstream linestream(line);
         linestream >> text >> num;
-        if(text.compare("procs_running") == 0) {
+        if(text.compare(filterRunningProcess) == 0) {
           return stoi(num);
         }
       }
@@ -284,7 +285,7 @@ string LinuxParser::Uid(int pid) {
     while(std::getline(filestream, line)) {
       std::istringstream linestream(line);
       linestream >> text >> num;
-      if(text.compare("Uid:") == 0) {
+      if(text.compare(filterUid) == 0) {
         return num;
       }
     }

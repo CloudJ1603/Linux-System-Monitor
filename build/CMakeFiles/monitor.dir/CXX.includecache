@@ -6,31 +6,19 @@
 
 #IncludeRegexTransform: 
 
-../include/linux_parser.h
-fstream
--
-regex
--
+../include/format.h
 string
 -
-
-/mnt/c/test/LinuxSystemMonitor/src/linux_parser.cpp
-dirent.h
--
-unistd.h
+iomanip
 -
 sstream
 -
+
+/mnt/c/test/LinuxSystemMonitor/src/format.cpp
 string
 -
-vector
+chrono
 -
-iostream
--
-unistd.h
--
-filesystem
--
-linux_parser.h
-/mnt/c/test/LinuxSystemMonitor/src/linux_parser.h
+format.h
+/mnt/c/test/LinuxSystemMonitor/src/format.h
 
